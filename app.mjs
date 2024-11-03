@@ -1,22 +1,11 @@
-import { readFile, writeFile } from 'node:fs'
-import util from 'node:util'
+import EventEmitter from 'node:events'
+const customEmitter = new EventEmitter()
 
-const readFilePromise = util.promisify(readFile)
-const writeFilePromise = util.promisify(writeFile)
+customEmitter.on('response', () => {
+    console.log(`data received`)
+})
 
-const start = async() => {
-    try {
-        const first = await readFilePromise('./testfolder/first.txt', 'utf8')
-        const second = await readFilePromise('./testfolder/second.txt', 'utf8')
-        await writeFilePromise('./testfolder/write-new.txt', `${first} ${second}`, {flag: 'a'})
-        console.log(first, second)
-    } catch(err) {
-        console.error("error fetching: ", err)
-    }
-}
-
-start()
-
+customEmitter.emit('response')
 // const getText = (path) => {
 //     return new Promise( (resolve, reject) => {
 //         readFile(path, 'utf8', (err, data) => {
