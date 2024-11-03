@@ -1,53 +1,19 @@
-import EventEmitter from 'node:events'
-const customEmitter = new EventEmitter()
+import { createReadStream }  from 'node:fs'
 
-customEmitter.on('response', () => {
-    console.log(`data received`)
+const stream = createReadStream('./testfolder/big.txt', {highWaterMark: 90000, encoding: 'utf8'})
+
+stream.on('data', (result) => {
+    console.log(result)
 })
+stream.on('error', (err) => {
+    console.log('error reading stream: ', err)
+})
+// import http from 'node:http'
 
-customEmitter.emit('response')
-// const getText = (path) => {
-//     return new Promise( (resolve, reject) => {
-//         readFile(path, 'utf8', (err, data) => {
-//             if(err) {
-//                 reject(err)
-//             } else {
-//                 resolve(data)
-//             }
-//         })
-//     })
-// }
+// const server = http.createServer()
 
-// const writeText = (path, first, second) => {
-//     return new Promise((resolve, reject) => {
-//         writeFile(path, `Here is the result ${first + second}`, (err, data) => {
-//             if(err) {
-//                 reject(err)
-//             } else {
-//                 resolve(data)
-//             }
-//         })
-//     })
-// }
-
-// getText('./testfolder/first.txt')
-//     .then(result => console.log(result))
-//     .catch(err => console.error('error getting text: ', err))
-
-// const server = http.createServer((req, res) => {
-//     if(req.url === "/") {
-//         res.end("Home Page")
-//     }
-//     if(req.url === "/about") {
-//         for(let i = 0; i < 1000; i++) {
-//             for(let j = 0; j < 1000; j++) {
-//                 console.log(`${i}, ${j}`)
-//             }
-//         }
-//         res.end("About Page")
-//     }
+// server.on('request', (req, res) => {
+//     res.end('welcome')
 // })
 
-// server.listen(5000, () => {
-//     console.log("Server running at http://localhost:5000/")
-// })
+// server.listen(5000)
