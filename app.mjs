@@ -1,6 +1,26 @@
+
+// ---- Simple way to create a basic server with express, and read html to the page for the frontend
+// import express from 'express'
+// import { readFile } from 'node:fs'
+// import util from 'node:util'
+
+// const readFilePromise = util.promisify(readFile)
+
+// const app = express()
+
+// app.get('/', async (req, res) => {
+//     res.send(await readFilePromise('./index.html', 'utf8'))
+// })
+
+// app.listen(5000, () => {
+//     console.log('listening on http://localhost:5000/')
+// })
+
+// ---- createReadStream is best for larger files, which allows us to break down the data into smaller chunks.
 import { createReadStream }  from 'node:fs'
 import http from 'node:http'
 
+console.log(process.env.USER)
 http
     .createServer((req, res) => {
         const fileStream = createReadStream('./testfolder/big.txt', 'utf8')
